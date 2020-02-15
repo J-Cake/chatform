@@ -1,0 +1,16 @@
+<form action="/login" method="post">
+    <span id="login-error">
+        <%- error ? error : '' %>
+    </span>
+
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email" placeholder="Email"/>
+
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" placeholder="Password"/>
+
+    <a href="/signup">Sign Up Instead</a>
+
+    <button>Log In anonymously</button>
+    <button>Log In</button>
+</form>
