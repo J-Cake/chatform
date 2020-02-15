@@ -46,17 +46,19 @@ export default class User {
     }
 
     static construct(pseudoUser: UserSchema): User {
-        const user: User = new User(pseudoUser.userToken instanceof UserToken ? pseudoUser.userToken : new UserToken(pseudoUser.userToken));
+        const {email, displayName, ownedChats, userToken, memberChats, followers} = pseudoUser;
 
-        for (const chat of pseudoUser.memberChats)
+        const user: User = new User(userToken instanceof UserToken ? userToken : new UserToken(userToken));
+
+        for (const chat of memberChats)
             user.joinChat(chat);
 
-        for (const chat of pseudoUser.ownedChats)
+        for (const chat of ownedChats)
             user.createChat(chat);
 
-        user.details.email = pseudoUser.email;
-        user.details.displayName = pseudoUser.displayName;
-        user.details.followers = pseudoUser.followers;
+        user.details.email = email;
+        user.details.displayName = displayName;
+        user.details.followers = followers;
 
         return user;
     }

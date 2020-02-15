@@ -1,1 +1,21 @@
-<
+<form action="/signup" method="post">
+    <span id="signup-error">
+        <%- error ? error : '' %>
+    </span>
+
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email" placeholder="Email"/>
+
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username" placeholder="Pick a username"/>
+
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" placeholder="Password"/>
+
+    <label for="password-confirm">Confirm Password</label>
+    <input type="password" name="password-confirm" id="password-confirm" placeholder="Confirm Your Password"/>
+
+    <a href="/login">Log In Instead</a>
+
+    <button>Sign Up</button>
+</form>

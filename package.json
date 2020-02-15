@@ -1,4 +1,7 @@
 {
+    "scripts": {
+        "run": "tsc && node ./dist/index.js 1920"
+    },
     "name": "chat_server",
     "dependencies": {
         "body-parser": "^1.19.0",

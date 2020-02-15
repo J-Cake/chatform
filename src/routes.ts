@@ -57,6 +57,20 @@ router.post("/login", function (req: express.Request, res: express.Response) {
     }
 });
 
+router.get('/signup', function (req: express.Request, res: express.Response) {
+    const errorMessages = {
+        '1': ""
+    };
+
+    const cookieMessage = errorMessages[req.cookies.authentication_error || '0'];
+
+    res.clearCookie('authentication_error');
+
+    res.render('signup', {
+        error: cookieMessage
+    });
+});
+
 router.post("/signup", function (req: express.Request, res: express.Response) {
     const errorMessages = {
         '1': "Email is taken",
