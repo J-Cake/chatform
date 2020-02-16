@@ -1,13 +1,17 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import {UserSchema} from "./user";
+import User, {UserSchema} from "./user";
 import Chat, {ChatJSONLayout} from "./chat";
 
 interface DB {
-    loadUsers(): UserSchema[],
+    loadUsers(): UserSchema[];
 
-    loadChat(id: string): Chat
+    loadChat(id: string): Chat;
+
+    saveUser(user: User): void;
+
+    updateDb(): void;
 }
 
 function JSONStore(): DB { // Use this in case the SQL Database isn't available.
@@ -17,6 +21,10 @@ function JSONStore(): DB { // Use this in case the SQL Database isn't available.
     const chats = fs.readdirSync(chatsDir);
 
     return {
+        updateDb(): void {
+            const userStore = JSON.stringify(users);
+
+        },
         loadUsers(): UserSchema[] {
             return users as UserSchema[]
         },
@@ -32,16 +40,24 @@ function JSONStore(): DB { // Use this in case the SQL Database isn't available.
 
                 return new Chat(id).load(chat);
             }
+        },
+        saveUser(user: User): void {
+
         }
     };
 }
 
 function PostgresStore(): DB { // Use this in case the SQL Database is available.
-    return { // TODO: Implement method with postgres
+    return {
+        updateDb(): void {
+        }, // TODO: Implement method with postgres
         loadUsers(): UserSchema[] {
             return;
         },
         loadChat(id: string): Chat {
+            return;
+        },
+        saveUser(user: User): void {
             return;
         }
     }

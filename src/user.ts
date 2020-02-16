@@ -74,4 +74,8 @@ export default class User {
     matchId(foreignId: UserToken): boolean {
         return foreignId.matches(this.userToken);
     }
+
+    saveUser() {
+        db.saveUser(this);
+    }
 }
