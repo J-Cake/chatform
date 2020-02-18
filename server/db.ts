@@ -15,18 +15,17 @@ interface DB {
 }
 
 function JSONStore(): DB { // Use this in case the SQL Database isn't available.
-    const storePath = path.join(process.cwd(), 'store');
-    const users = JSON.parse(fs.readFileSync(path.join(storePath, 'users.json'), 'utf8'));
-    const chatsDir = path.join(path.join(storePath), 'chats');
-    const chats = fs.readdirSync(chatsDir);
+    const storePath: string = path.join(process.cwd(), 'store');
+    const users: UserSchema[] = JSON.parse(fs.readFileSync(path.join(storePath, 'users.json'), 'utf8'));
+    const chatsDir: string = path.join(path.join(storePath), 'chats');
+    const chats: string[] = fs.readdirSync(chatsDir);
 
     return {
         updateDb(): void {
-            const userStore = JSON.stringify(users);
-
+            fs.writeFileSync(path.join(storePath, 'users.json'), JSON.stringify(users), 'utf8');
         },
         loadUsers(): UserSchema[] {
-            return users as UserSchema[]
+            return users;
         },
         loadChat(id: string): Chat {
             const chatsNames = chats.map(i => ({
@@ -42,7 +41,16 @@ function JSONStore(): DB { // Use this in case the SQL Database isn't available.
             }
         },
         saveUser(user: User): void {
-
+            users.push({
+                displayName: user.details.displayName,
+                email: user.details.email,
+                userToken: user.userToken.id,
+                ownedChats: user.ownedChats.map(i => i.id),
+                memberChats: user.memberChats.map(i => i.id),
+                following: user.details.following,
+                clientSecret: user.cipherPassword
+            });
+            stores.json.updateDb();
         }
     };
 }

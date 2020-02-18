@@ -1,1 +1,54 @@
-Dashboard
+<!doctype HTML>
+
+<html lang="en-au">
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+<header>
+    <span>Welcome <%= userObject.details.displayName %></span>
+</header>
+
+<section id="people">
+    <header>
+        <h2>People</h2>
+        <button>Add</button>
+    </header>
+
+    <div id="people-list">
+        <%- userObject.details.following.map(i => `<div class="person">${i.resolve().details.displayName}</div>`).join('') || "You haven't befriended anyone yet" %>
+    </div>
+</section>
+
+<section id="chat-container">
+    <header id="sort-tools">
+        <button>Split by mine</button>
+        <label>
+            Sort By
+            <select>
+                <option>Alphabetical</option>
+                <option>Counter Alphabetical</option>
+                <option>Most Recently Active</option>
+                <option>Most Recently Created</option>
+                <option>Least Recently Active</option>
+                <option>Least Recently Created</option>
+            </select>
+        </label>
+    </header>
+    <div id="chats">
+        <%= userObject.listChats(userObject.constructor.filters[userObject.constructor.filterNames.alphabetical]).map(i => `<div class="chat-option" data-id="${i.id}">${i.name}</div>`) %>
+    </div>
+</section>
+
+<section id="chat-room-container">
+    <header>
+        <h3 id="chat-name"></h3>
+    </header>
+    <div id="room-container">
+        <h2>Select a chat to view its contents</h2>
+    </div>
+</section>
+
+<script src="/src/src.js"></script>
+</body>
+</html>

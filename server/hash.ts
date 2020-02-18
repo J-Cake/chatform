@@ -10,8 +10,10 @@ export default function hash(seed: string, salt: number): string {
 
     const hashHistory: string[] = [];
 
-    for (let i = 0; i <= salt; i++)
+    const saltRounds: number = Math.max(1, Math.min(salt, 99));
+
+    for (let i = 0; i <= saltRounds; i++)
         hashHistory.push(hashRound(hashHistory[hashHistory.length - 1] || seed));
 
-    return hashHistory[hashHistory.length - 1];
+    return String(saltRounds).padStart(3, '0') + hashHistory[hashHistory.length - 1];
 }

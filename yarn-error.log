@@ -14,7 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  Error: ENOSYS: function not implemented, symlink '../../../mime/cli.js' -> '/media/jcake/Databank/Chat App/node_modules/send/node_modules/.bin/mime'
+  Error: ENOSYS: function not implemented, symlink '../../../acorn/bin/acorn' -> '/media/jcake/Databank/Chat App/node_modules/acorn-node/node_modules/.bin/acorn'
 
 npm manifest: 
   {
@@ -31,7 +31,14 @@ npm manifest:
           "source-map-support": "^0.5.16"
       },
       "devDependencies": {
-          "@types/express": "^4.17.2"
+          "@types/express": "^4.17.2",
+          "browserify": "^16.5.0",
+          "grunt": "latest",
+          "grunt-browserify": "latest",
+          "grunt-contrib-uglify": "latest",
+          "grunt-contrib-watch": "latest",
+          "typescript": "latest",
+          "uglify-es": "^3.3.9"
       }
   }
 
