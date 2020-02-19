@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="/CSS/<filename.css>"/>
+<html>
+<head>
+<style>
+.h1{
+    color:"white";
+    font-family:"Georgia",serif;
+}
+.container{
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.container .btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #505050;
+    color: white;
+    font-size: 20px;
+    padding: 16px 28px;
+    border: none;
+    cursor: pointer;
+    border-radius: 7px;
+    text-align: center;
+}
+
+</style>
+</head>
+<body>
+<h1>ChatForum Testing</h1>
+<div class="container">
+    <img src="cat.jpg" style="width:100%">
+    <button class="btn">Sign up</button>
+</div>
+
+</body>
+</html>
