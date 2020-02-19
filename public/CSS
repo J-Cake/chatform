@@ -2,6 +2,34 @@
 <html>
 <head>
 <style>
+.button{
+    background-color: white;
+    border: none;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px
+    margin: 4px 2px;
+    transition duration: 0.4s;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 16px 28px;
+    cursor: pointer;
+    border-radius: 7px;
+}
+button1{
+    background-color: white;
+    color: black;
+    border: 2px solid #0066F;
+}
+.button1:hover{
+    background-color: #0066F;
+    color: white;
+}
+
 .h1{
     color:"white";
     font-family:"Georgia",serif;
@@ -12,20 +40,6 @@
     max-width: 400px;
 }
 
-.container .btn {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #505050;
-    color: white;
-    font-size: 20px;
-    padding: 16px 28px;
-    border: none;
-    cursor: pointer;
-    border-radius: 7px;
-    text-align: center;
-}
 
 </style>
 </head>
@@ -33,7 +47,7 @@
 <h1>ChatForum Testing</h1>
 <div class="container">
     <img src="cat.jpg" style="width:100%">
-    <button class="btn">Sign up</button>
+    <button class="button button1">Sign up</button>
 </div>
 
 </body>
