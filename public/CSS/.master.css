@@ -1,8 +1,4 @@
-<link rel="stylesheet" href="/CSS/<filename.css>"/>
-<html>
-<head>
-<style>
-.button{
+.button {
     background-color: white;
     border: none;
     /*padding: 16px 32px;*/
@@ -32,25 +28,13 @@
     color: white;
 }
 
-.h1{
-    color:"white";
-    font-family:"Georgia",serif;
+.h1 {
+    color: white;
+    font-family: "Georgia", serif;
 }
-.container{
+
+.container {
     position: relative;
     width: 100%;
     max-width: 400px;
 }
-
-
-</style>
-</head>
-<body>
-<h1>ChatForum Testing</h1>
-<div class="container">
-    <img src="cat.jpg" style="width:100%">
-    <button class="button button1">Sign up</button>
-</div>
-
-</body>
-</html>
