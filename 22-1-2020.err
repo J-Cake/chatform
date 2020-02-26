@@ -1,0 +1,21 @@
+TypeError: Cannot read property 'id' of null
+    at /home/jcake/Code/Chat App/dist/server/src/server/db.ts:37:55
+    at Array.map (<anonymous>)
+    at /home/jcake/Code/Chat App/dist/server/src/server/db.ts:37:44
+    at Array.map (<anonymous>)
+    at /home/jcake/Code/Chat App/dist/server/src/server/db.ts:33:30
+    at Object.updateDb (/home/jcake/Code/Chat App/dist/server/src/server/db.ts:43:15)
+    at Object.saveUser (/home/jcake/Code/Chat App/dist/server/src/server/db.ts:80:25)
+    at User.export (/home/jcake/Code/Chat App/dist/server/src/server/user.ts:158:12)
+    at /home/jcake/Code/Chat App/dist/server/routes/src/server/routes/private.ts:47:28
+    at Layer.handle [as handle_request] (/home/jcake/Code/Chat App/node_modules/express/lib/router/layer.js:95:5)TypeError: Cannot read property 'id' of null
+    at /home/jcake/Code/Chat App/dist/server/src/server/db.ts:37:55
+    at Array.map (<anonymous>)
+    at /home/jcake/Code/Chat App/dist/server/src/server/db.ts:37:44
+    at Array.map (<anonymous>)
+    at /home/jcake/Code/Chat App/dist/server/src/server/db.ts:33:30
+    at Object.updateDb (/home/jcake/Code/Chat App/dist/server/src/server/db.ts:43:15)
+    at Object.saveUser (/home/jcake/Code/Chat App/dist/server/src/server/db.ts:80:25)
+    at User.export (/home/jcake/Code/Chat App/dist/server/src/server/user.ts:158:12)
+    at /home/jcake/Code/Chat App/dist/server/routes/src/server/routes/private.ts:47:28
+    at Layer.handle [as handle_request] (/home/jcake/Code/Chat App/node_modules/express/lib/router/layer.js:95:5)

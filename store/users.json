@@ -1,11 +1,24 @@
 [
     {
-        "displayName": "un",
-        "email": "a@b.c",
-        "userToken": "AVoj$nI2EJqW8odK",
-        "ownedChats": [],
+        "clientSecret": "007ad1d9daf63d7226f7025f0117c83cdd0f406f3d8240cd0d80822d0b767c602d5",
+        "displayName": "JCake",
+        "email": "jakieschneider13@gmail.com",
+        "following": [
+            "2s2_hEalzoig6q2h"
+        ],
         "memberChats": [],
+        "ownedChats": [],
+        "publicToken": "vacQJhQxxUNXuqYk",
+        "userToken": "8fybRL48EVyaRrFs"
+    },
+    {
+        "clientSecret": "006cc6f8bd47d04eec0cfc1ae20c1b14d35b99116aaf06244463a74ae626bfcba0e",
+        "displayName": "username",
+        "email": "a@b.c",
         "following": [],
-        "clientSecret": "006cc6f8bd47d04eec0cfc1ae20c1b14d35b99116aaf06244463a74ae626bfcba0e"
+        "memberChats": [],
+        "ownedChats": [],
+        "publicToken": "2s2_hEalzoig6q2h",
+        "userToken": "y9o62bn827njtvrm"
     }
 ]

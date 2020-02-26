@@ -7,12 +7,14 @@
 <body>
 <header>
     <span>Welcome <%= userObject.details.displayName %></span>
+    <button id="preferences-btn">Preferences</button>
+    <button id="logout-btn">Log Out</button>
 </header>
 
 <section id="people">
     <header>
         <h2>People</h2>
-        <button>Add</button>
+        <button id="befriend-btn">Add</button>
     </header>
 
     <div id="people-list">
@@ -36,7 +38,9 @@
         </label>
     </header>
     <div id="chats">
-        <%= userObject.listChats(userObject.constructor.filters[userObject.constructor.filterNames.alphabetical]).map(i => `<div class="chat-option" data-id="${i.id}">${i.name}</div>`) %>
+        <%- userObject.listChats(userObject.constructor.filters[userObject.constructor.filterNames.alphabetical]).map(i => `<div class="chat-option" data-id="${i.id}">${i.name}</div>`).join("") ||
+        `<div id='friendly-message'>There's nothing here yet</div>`
+        %>
     </div>
 </section>
 

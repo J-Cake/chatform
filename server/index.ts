@@ -5,7 +5,8 @@ import * as bodyParser from 'body-parser';
 import * as path from 'path';
 import * as morgan from 'morgan';
 
-import routes from './routes';
+import routes from './routes/routes';
+import API from './routes/api';
 
 SourceMaps.install();
 
@@ -19,6 +20,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(process.cwd(), "views"));
 
 app.use(routes);
+app.use('/api', API);
 
 const port: number = Number(process.argv[2]) || Number(process.env.PORT) || 9052;
 

@@ -1,10 +1,10 @@
 import * as express from 'express';
 import * as path from 'path';
 
-import User from "./user";
-import UserToken from "./userToken";
-import hash from './hash';
-import Key from "./key";
+import User from "../user";
+import UserToken from "../userToken";
+import hash from '../hash';
+import Key from "../key";
 
 const router: express.Router = express.Router();
 
@@ -29,7 +29,9 @@ router.get('/', function (req: express.Request, res: express.Response) {
 
 router.get('/dash', function (req: express.Request, res: express.Response) {
     if (UserToken.isValidUser(req.cookies.token)) {
-        const user: User = new UserToken(req.cookies.token).resolve();
+        const user: User = UserToken.fetchUserById(req.cookies.token);
+
+        console.log("User", user);
 
         res.clearCookie('authentication_error');
         res.render('dash', {
@@ -62,8 +64,6 @@ router.get('/login', function (req: express.Request, res: express.Response) {
 router.post("/login", function (req: express.Request, res: express.Response) {
     const email = req.body.email,
         password = req.body.password;
-
-    // const hashedPassword = hash(password, Math.floor(Math.random() * 10) + 5);
 
     const user: User = User.resolveFromCredentials(email);
 
@@ -125,6 +125,7 @@ router.post("/signup", function (req: express.Request, res: express.Response) {
         const hashedPassword = hash(password, Math.floor(Math.random() * 10) + 5);
 
         const fetchUser = User.resolveFromCredentials(email, hashedPassword);
+
         if (fetchUser) { // user accidentally tried to sign up instead of logging in. No matter, redirect to the dash anyway
             res.cookie('token', fetchUser.userToken.id);
             res.clearCookie('authentication_error');
@@ -144,6 +145,7 @@ router.post("/signup", function (req: express.Request, res: express.Response) {
 
             user.details.email = email;
             user.details.displayName = username;
+            user.details.id = user.userToken.key.next().toString();
             user.export();
 
             if (user) {
