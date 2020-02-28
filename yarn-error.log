@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/lib/node_modules/yarn/bin/yarn.js install
+  /snap/node/2494/bin/node /usr/lib/node_modules/yarn/bin/yarn.js install
 
 PATH: 
   /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
@@ -8,13 +8,17 @@ Yarn version:
   1.22.0
 
 Node version: 
-  13.8.0
+  13.0.0-nightly20190802452b393c1f
 
 Platform: 
   linux x64
 
 Trace: 
-  Error: ENOSYS: function not implemented, symlink '../../../acorn/bin/acorn' -> '/media/jcake/Databank/Chat App/node_modules/acorn-node/node_modules/.bin/acorn'
+  Error: unable to get local issuer certificate
+      at TLSSocket.onConnectSecure (_tls_wrap.js:1317:34)
+      at TLSSocket.emit (events.js:203:13)
+      at TLSSocket._finishInit (_tls_wrap.js:792:8)
+      at TLSWrap.ssl.onhandshakedone (_tls_wrap.js:606:12)
 
 npm manifest: 
   {
@@ -28,7 +32,8 @@ npm manifest:
           "ejs": "^3.0.1",
           "express": "^4.17.1",
           "morgan": "^1.9.1",
-          "source-map-support": "^0.5.16"
+          "source-map-support": "^0.5.16",
+          "ws": "latest"
       },
       "devDependencies": {
           "@types/express": "^4.17.2",
