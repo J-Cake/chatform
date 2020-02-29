@@ -19,7 +19,10 @@ interface DB {
 
 function JSONStore(): DB { // Use this in case the SQL Database isn't available. This will generally be used in development mode to keep user information separate from testing data
     const storePath: string = path.join(process.cwd(), 'store');
-    const users: UserSchema[] = JSON.parse(fs.readFileSync(path.join(storePath, 'users.json'), 'utf8') || "[]");
+
+    const userStore = path.join(storePath, 'users.json');
+
+    const users: UserSchema[] = fs.existsSync(userStore) ? JSON.parse(fs.readFileSync(path.join(storePath, 'users.json'), 'utf8')) : [];
     const chatsDir: string = path.join(path.join(storePath), 'chats');
     const chats: string[] = fs.readdirSync(chatsDir);
 

@@ -14,26 +14,30 @@ Platform:
   linux x64
 
 Trace: 
-  Error: unable to get local issuer certificate
-      at TLSSocket.onConnectSecure (_tls_wrap.js:1317:34)
-      at TLSSocket.emit (events.js:203:13)
-      at TLSSocket._finishInit (_tls_wrap.js:792:8)
-      at TLSWrap.ssl.onhandshakedone (_tls_wrap.js:606:12)
+  SyntaxError: /media/jcake/Databank/Chat App/package.json: Unexpected token } in JSON at position 470
+      at JSON.parse (<anonymous>)
+      at /usr/lib/node_modules/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /usr/lib/node_modules/yarn/lib/cli.js:321:13
 
 npm manifest: 
   {
       "scripts": {
-          "run": "tsc && node ./dist/index.js 1920"
+          "run": "tsc && node ./dist/server/index.js 1920",
+          "build": "tsc && node ./dist/server/index.js 1920"
       },
       "name": "chat_server",
       "dependencies": {
+          "mime": "latest",
+          "@types/ws": "^7.2.2",
           "body-parser": "^1.19.0",
           "cookie-parser": "^1.4.4",
           "ejs": "^3.0.1",
           "express": "^4.17.1",
           "morgan": "^1.9.1",
           "source-map-support": "^0.5.16",
-          "ws": "latest"
+          "ws": "latest",
       },
       "devDependencies": {
           "@types/express": "^4.17.2",

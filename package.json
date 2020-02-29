@@ -1,10 +1,11 @@
 {
     "scripts": {
-        "run": "tsc && node ./dist/server/index.js 1920"
+        "run": "tsc && node ./dist/server/index.js 1920",
         "build": "tsc && node ./dist/server/index.js 1920"
     },
     "name": "chat_server",
     "dependencies": {
+        "mime": "^2.4.4",
         "@types/ws": "^7.2.2",
         "body-parser": "^1.19.0",
         "cookie-parser": "^1.4.4",
