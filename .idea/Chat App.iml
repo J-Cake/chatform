@@ -6,6 +6,8 @@
       <excludeFolder url="file://$MODULE_DIR$/dist" />
       <excludeFolder url="file://$MODULE_DIR$/node_modules" />
       <excludeFolder url="file://$MODULE_DIR$/public/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/server/update_server/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/server/update_server/dist" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
