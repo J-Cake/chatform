@@ -31,7 +31,7 @@ app.listen(port, function () {
 });
 
 
-const initialiseUpdateDaemon: boolean = !!process.env.DAEMON || true;
+const initialiseUpdateDaemon: boolean = JSON.parse(process.env.DAEMON || "true");
 const upgrade: boolean = !!process.env.OBSERVER || false;
 // Initialise the daemon unless specified
 
@@ -44,4 +44,6 @@ if (initialiseUpdateDaemon) {
     daemon(externalURL).then(function () {
         console.log("Daemon: Running");
     });
+} else {
+    console.log('DAEMON: Ignoring Daemon');
 }
