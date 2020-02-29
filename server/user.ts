@@ -30,14 +30,19 @@ export enum ChatOwner {
     both
 }
 
-export interface UserSchema {
+export interface UserSchemaBase {
     displayName: string
     email: string,
     userToken: UserToken | string,
     ownedChats: string[],
     memberChats: string[],
-    following: UserToken[],
-    clientSecret: string
+    following: UserToken[] | string[],
+    clientSecret: string,
+    publicToken: string
+}
+
+export interface UserSchema extends UserSchemaBase {
+    following: UserToken[]
 }
 
 export default class User {
@@ -55,6 +60,7 @@ export default class User {
         email: string,
         displayName: string,
         following: UserToken[],
+        id: string
     };
 
     constructor(token: UserToken) {
@@ -63,7 +69,8 @@ export default class User {
         this.details = {
             email: '',
             displayName: '',
-            following: []
+            following: [],
+            id: ''
         };
 
         this.ownedChats = [];
@@ -86,8 +93,7 @@ export default class User {
     }
 
     static resolveFromCredentials(email: string, clientSecret?: string): User {
-        if (User.users.length <= 0)
-            this.loadUsers();
+        this.loadUsers();
 
         for (const user of User.users)
             if (user.details.email === email)
@@ -100,7 +106,7 @@ export default class User {
     }
 
     static construct(pseudoUser: UserSchema): User {
-        const {email, displayName, ownedChats, userToken, memberChats, following, clientSecret} = pseudoUser;
+        const {email, displayName, ownedChats, userToken, memberChats, following, clientSecret, publicToken} = pseudoUser;
 
         const user: User = new User(userToken instanceof UserToken ? userToken : new UserToken(userToken));
 
@@ -112,7 +118,12 @@ export default class User {
 
         user.details.email = email;
         user.details.displayName = displayName;
-        user.details.following = following;
+        user.details.following = following.map(i => i instanceof UserToken ? i : new UserToken(i, true)).filter(function (i) {
+            console.log(i);
+            return !!i.resolve();
+            // return UserToken.isValidUser(i);
+        });
+        user.details.id = publicToken;
         user.cipherPassword = clientSecret;
 
         return user;

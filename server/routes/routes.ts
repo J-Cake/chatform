@@ -1,15 +1,24 @@
 import * as express from 'express';
 import * as path from 'path';
 
-import User from "./user";
-import UserToken from "./userToken";
-import hash from './hash';
-import Key from "./key";
+import User from "../user";
+import UserToken from "../userToken";
+import hash from '../hash';
+import Key from "../key";
 
 const router: express.Router = express.Router();
 
-router.use("/src", express.static(path.join(process.cwd(), './dist/public')));
-router.use("/css", express.static(path.join(process.cwd(), './css/public')));
+if (process.env.environment === "production") {
+    router.get('/src/src.js', function (req, res) {
+        res.redirect('/src/src.min.js');
+    });
+
+    router.use('/src', express.static(path.join(process.cwd(), './dist/public/production')));
+    router.use('/css', express.static(path.join(process.cwd(), './dist/public/css/production')));
+} else {
+    router.use("/src", express.static(path.join(process.cwd(), './dist/public')));
+    router.use("/css", express.static(path.join(process.cwd(), './dist/public/css')));
+}
 
 router.get('/', function (req: express.Request, res: express.Response) {
     if (!req.cookies.token)
@@ -20,7 +29,9 @@ router.get('/', function (req: express.Request, res: express.Response) {
 
 router.get('/dash', function (req: express.Request, res: express.Response) {
     if (UserToken.isValidUser(req.cookies.token)) {
-        const user: User = new UserToken(req.cookies.token).resolve();
+        const user: User = UserToken.fetchUserById(req.cookies.token);
+
+        console.log("User", user);
 
         res.clearCookie('authentication_error');
         res.render('dash', {
@@ -54,23 +65,27 @@ router.post("/login", function (req: express.Request, res: express.Response) {
     const email = req.body.email,
         password = req.body.password;
 
-    // const hashedPassword = hash(password, Math.floor(Math.random() * 10) + 5);
-
     const user: User = User.resolveFromCredentials(email);
 
-    // console.log(user);
-
-    if (user.matchPassword(password)) {
-        if (user) {
-            res.cookie("token", user.userToken.id);
-            res.redirect("/dash");
+    if (user) {
+        if (user.matchPassword(password)) {
+            if (user) {
+                res.cookie("token", user.userToken.id);
+                res.redirect("/dash");
+            } else {
+                res.status(403);
+                res.cookie('authentication_error', 2);
+                res.cookie('props', JSON.stringify({
+                    email: email
+                }));
+                res.redirect("/login");
+            }
         } else {
-            res.status(403);
-            res.cookie('authentication_error', 2);
+            res.cookie("authentication_error", '3');
             res.cookie('props', JSON.stringify({
                 email: email
             }));
-            res.redirect("/login");
+            res.redirect('/login');
         }
     } else {
         res.cookie("authentication_error", '3');
@@ -110,6 +125,7 @@ router.post("/signup", function (req: express.Request, res: express.Response) {
         const hashedPassword = hash(password, Math.floor(Math.random() * 10) + 5);
 
         const fetchUser = User.resolveFromCredentials(email, hashedPassword);
+
         if (fetchUser) { // user accidentally tried to sign up instead of logging in. No matter, redirect to the dash anyway
             res.cookie('token', fetchUser.userToken.id);
             res.clearCookie('authentication_error');
@@ -129,6 +145,7 @@ router.post("/signup", function (req: express.Request, res: express.Response) {
 
             user.details.email = email;
             user.details.displayName = username;
+            user.details.id = user.userToken.key.next().toString();
             user.export();
 
             if (user) {

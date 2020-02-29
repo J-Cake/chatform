@@ -14,6 +14,7 @@ Since the chat application itself never leaves the *School Grounds* in other wor
 - [NodeJS](https://nodejs.org/en/)
 - [NPM](https://npmjs.com) (This comes bundled with Node)
 - [TypeScript](https://www.typescriptlang.org/) (Install through NPM)
+- [Grunt Task Runner](https://gruntjs.com/) (Install through NPM)
 - [Yarn](https://yarnpkg.com/) (Optional, Replacement for NPM, Install through NPM (Would recommend))
 - [Git](https://git-scm.com/)
 
@@ -94,6 +95,21 @@ If you haven't:
 $ npm i -g typescript
 ```
 
+Do this by first installing the global Grunt package:
+
+With yarn: 
+
+```
+$ yarn global add Grunt-cli
+...
+```
+
+Without yarn:
+
+```
+$ npm i -g grunt-cli
+```
+
 Clone the project:
 
 ```
@@ -126,10 +142,19 @@ Prepare launch:
 $ tsc
 ...
 
-$ node ./dist/index.js 1920
-Listening on port 1920
+$ grunt [task*]
+
+$ node ./dist/server/index.js <Optional Port Number>
+Listening on port <Port Number>
 ```
 
-If all went well and you see the final message: `Listening on port 1920`, you've set the project up successfully.
+> \* **Grunt Task:** I would advise to use the task appropriate to your needs, 
+    If you're planning on deploying, testing or trying, use the `production` task, if you're contributing, the `development` (the task names must be exactly as mentioned). 
 
-If you open a webbrowser to `http://localhost:1920`, you should see a login page. Congratulations, you've cloned and initialised the project successfully.
+> **Note about port numbers:** If you need it, there is support for environment specified ports, the server will look under the variable `PORT`. 
+
+> It is also worth mentioning that the port number is not required at startup. The server will fall back into `9053`.  
+
+If all went well and you see the final message: `Listening on port <Port Number>`, you've set the project up successfully.
+
+If you open a Web Browser to `http://localhost:<Port Number>`, you should see a login page. Congratulations, you've cloned and initialised the project successfully.
