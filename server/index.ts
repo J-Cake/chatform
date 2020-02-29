@@ -30,18 +30,18 @@ app.listen(port, function () {
     console.log(`Server: Listening on ${port}`);
 });
 
-if (process.platform === 'win32') {
-    const initialiseUpdateDaemon: boolean = !!process.env.DAEMON || true;
-    // Initialise the daemon unless specified
 
-    if (initialiseUpdateDaemon) {
-        console.log("Daemon: Initialising Daemon");
+const initialiseUpdateDaemon: boolean = !!process.env.DAEMON || true;
+const upgrade: boolean = !!process.env.OBSERVER || false;
+// Initialise the daemon unless specified
 
-        const externalURL = "ws://detnsw-chat-update-server.herokuapp.com/";
-        // const externalURL = "ws://localhost:1920";
+if (initialiseUpdateDaemon) {
+    console.log("Daemon: Initialising Daemon");
 
-        daemon(externalURL).then(function () {
-            console.log("Daemon: Running");
-        });
-    }
+    const externalURL = "ws://detnsw-chat-update-server.herokuapp.com/";
+    // const externalURL = "ws://localhost:1920";
+
+    daemon(externalURL).then(function () {
+        console.log("Daemon: Running");
+    });
 }

@@ -5,7 +5,7 @@ import {ChildProcess, spawn} from 'child_process';
 
 let isObserverClient: boolean = false;
 
-async function init(url) {
+async function init(url, requestUpgrade: boolean = false) {
     console.log("Daemon: Establishing Connection");
 
     let deliberateClose: boolean = false;
@@ -53,7 +53,8 @@ async function init(url) {
     socket.on('open', function open() {
         console.log("Daemon: Connection Success");
 
-        if (process.stdout.isTTY) // request upgrade
+        if (requestUpgrade)
+            // if (process.stdout.isTTY) // request upgrade
             socket.send("upgrade");
 
         serverOpen = true;
