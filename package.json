@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "run": "tsc && node ./dist/index.js 1920"
+        "run": "tsc && node ./dist/server/index.js 1920"
     },
     "name": "chat_server",
     "dependencies": {
@@ -10,6 +10,7 @@
         "ejs": "^3.0.1",
         "express": "^4.17.1",
         "morgan": "^1.9.1",
+        "run": "^1.4.0",
         "source-map-support": "^0.5.16",
         "ws": "latest"
     },
