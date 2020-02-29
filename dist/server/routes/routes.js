@@ -16,7 +16,7 @@ if (process.env.environment === "production") {
 }
 else {
     router.use("/src", express.static(path.join(process.cwd(), './dist/public')));
-    router.use("/css", express.static(path.join(process.cwd(), './dist/public/css')));
+    router.use("/css", express.static(path.join(process.cwd(), './public/css')));
 }
 router.get('/', function (req, res) {
     if (!req.cookies.token)

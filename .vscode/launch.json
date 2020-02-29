@@ -7,17 +7,16 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch via NPM",
+            "name": "Server",
             "runtimeExecutable": "npm",
             "runtimeArgs": [
                 "run",
-                "debug"
+                "build"
             ],
-            "port": 9229,
+            "port": 9053,
             "skipFiles": [
                 "<node_internals>/**"
             ]
         }
-        
     ]
 }
