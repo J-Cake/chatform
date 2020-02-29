@@ -1,4 +1,4 @@
-button {
+.button {
     background-color: white;
     border: none;
     /*padding: 16px 32px;*/
@@ -7,7 +7,7 @@ button {
     display: inline-block;
     font-size: 20px;
     margin: 4px 2px;
-    transition: 0.4s;
+    transition-duration: 0.4s;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -38,13 +38,11 @@ button {
     width: 100%;
     max-width: 400px;
 }
-
-.text {
+.text{
     font-family: 'Times New Roman', Times, serif;
     font-size: 1.125em;
 }
-
-.dbutton {
+.dbutton{
     background-color: dimgray;
     border-color: black;
     border-radius: 5px;
