@@ -1,6 +1,8 @@
 import UserToken from "./userToken";
+import ChatToken from "./chatToken";
 
 export enum ReadStatus {
+    failed = -1,
     sending,
     sent,
     received,
@@ -8,12 +10,12 @@ export enum ReadStatus {
 }
 
 export interface MessageJSONStructure {
-    content: string,
+    content: number[],
     sender: string, // convert to id token after
     timestamp: number, // millisecond timestamp
     chatId: string,
     readStatus: {
-        id: ReadStatus // gets evaluated to a number
+        [id: string]: ReadStatus // gets evaluated to a number
     }
 }
 
@@ -22,8 +24,8 @@ export default class Message {
 
     timeStamp: Date;
 
-    chat: string;
-    message: string;
+    chat: ChatToken;
+    message: number[];
 
     readStatus: {
         user: UserToken,
@@ -31,10 +33,10 @@ export default class Message {
     }[]; // it's an array because multiple people could have seen the message
 
     constructor(messageStructure: {
-        content: string,
+        content: number[],
         sender: UserToken,
         timestamp: Date,
-        chatId: string,
+        chatId: ChatToken,
         readStatus: {
             user: UserToken,
             status: ReadStatus
@@ -52,11 +54,29 @@ export default class Message {
             content: source.content,
             sender: new UserToken(source.sender),
             timestamp: new Date(source.timestamp),
-            chatId: source.chatId,
+            chatId: new ChatToken(source.chatId),
             readStatus: Object.keys(source.readStatus).map(i => ({
                 user: new UserToken(i),
                 status: source.readStatus[i]
             }))
         });
+    }
+
+    toJson(): MessageJSONStructure {
+
+        const read: {
+            [id: string]: ReadStatus
+        } = {};
+
+        for (const id of this.readStatus)
+            read[id.user.id] = id.status;
+
+        return {
+            chatId: this.chat.id,
+            content: this.message,
+            readStatus: read,
+            sender: this.sender.toString(),
+            timestamp: 0
+        }
     }
 }

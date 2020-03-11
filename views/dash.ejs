@@ -5,27 +5,23 @@
     <title>Dashboard</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
+    <meta name="description"
+          content="Communicate with friends, family and more. Bypass Government Education Proxy systems and communicate with anyone around the world. Access sites typically blocked for average users with ease!"/>
     <title>JS Bin</title>
 
-    <!--    <style>-->
-    <!--        :root {-->
-    <!--            &#45;&#45;background: black;-->
-    <!--        }-->
-
-    <!--        #colour {-->
-    <!--            width: 300px;-->
-    <!--            height: 200px;-->
-    <!--            background: var(&#45;&#45;background);-->
-    <!--        }-->
-    <!--    </style>-->
-
     <link rel="stylesheet" href="/css/master.css"/>
+
+    <% if (typeof locals.chat !== "undefined" && locals.chat) { %>
+        <meta name="chatId" content="<%= chat.chatToken.id %>"/>
+    <% } %>
 </head>
 <body>
 <header>
     <span>Welcome <%= userObject.details.displayName %></span>
     <button id="preferences-btn">Preferences</button>
-    <button id="logout-btn">Log Out</button>
+    <a href="">
+        <button id="logout-btn">Log Out</button>
+    </a>
 </header>
 
 <section id="people">
@@ -35,7 +31,13 @@
     </header>
 
     <div id="people-list">
-        <%- userObject.details.following.map(i => `<div class="person">${i.resolve().details.displayName}</div>`).join('') || "You haven't befriended anyone yet" %>
+        <% const following = userObject.details.following %>
+
+        <% if (following.length > 0) { for (const i of following) { %>
+            <div class="person" data-id="<%= i.id %>"><%= i.resolve().details.displayName %></div>
+        <% } } else { %>
+            <div>You haven't befriended anyone yet</div>
+        <% } %>
     </div>
 </section>
 
@@ -55,9 +57,15 @@
         </label>
     </header>
     <div id="chats">
-        <%- userObject.listChats(userObject.constructor.filters[userObject.constructor.filterNames.alphabetical]).map(i => `<div class="chat-option" data-id="${i.id}">${i.name}</div>`).join("") ||
-        `<div id='friendly-message'>There's nothing here yet</div>`
-        %>
+        <% const chats = userObject.listChats(userObject.constructor.filterNames.alphabetical); %>
+
+        <% if (chats && chats.length >= 0) { for (const chat of chats) { %>
+            <a href="/chat/<%= chat.chatId.id %>"><%= chat.chatName %></a>
+
+        <% } } else { %>
+            <div id='friendly-message'>There's nothing here yet</div>
+        <% } %>
+
     </div>
 </section>
 
@@ -66,10 +74,47 @@
         <h3 id="chat-name"></h3>
     </header>
     <div id="room-container">
-        <h2>Select a chat to view its contents</h2>
+        <% if (typeof chat !== "undefined" && chat) { %>
+            <% for (const message of chat.messages) { %>
+                <% const sender = new UserToken(message.sender, true).resolve() %>
+                <div class="message">
+                    <div class="message-header">
+                        <span class="sender"><%= sender.details.displayName %></span>
+                        <span class="time"><%- new Date(message.timestamp).toLocaleString() %></span>
+                    </div>
+                    <div class="message-content">
+                        <div class="prof-pic">
+                            <img src="/user/image/<%- message.sender.id %>"/>
+                        </div>
+                        <div class="message-body">
+                            <%- message.message.map(i => String.fromCodePoint(i)).join('') %>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+            <form id="message-composer">
+                <button id="attach-btn">
+                    <!--Include paperclip icon-->
+                    attach
+                </button>
+                <label>
+                    <input type="text" placeholder="Message" id="message-box">
+                </label>
+                <button>
+                    <!--Include a send icon-->
+                    send
+                </button>
+            </form>
+        <% } else { %>
+            <h2>Select a chat to view its contents</h2>
+        <% } %>
     </div>
 </section>
 
-<script src="/src/src.js"></script>
+<% if (environment === 1) { %>
+    <script src="/src/src.js"></script>
+<% } else { %>
+    <script src="/src/src.min.js"></script>
+<% } %>
 </body>
 </html>

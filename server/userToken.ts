@@ -8,9 +8,10 @@ export default class UserToken { // the class used to represent a user rather th
     id: string;
     isPublicKey: boolean;
 
-    constructor(id: string, isPublicKey: boolean = false) {
-        if (id.length >= 16)
-            this.id = id;
+    constructor(id: string | { id: string }, isPublicKey: boolean = false) {
+        const _id = typeof id === "string" ? id : ("id" in id ? (id as any).id : id);
+        if (_id.length >= 16)
+            this.id = _id;
 
         this.isPublicKey = isPublicKey;
     }
@@ -67,5 +68,9 @@ export default class UserToken { // the class used to represent a user rather th
         let token = id instanceof UserToken ? id.id : id;
 
         return token === this.id;
+    }
+
+    toString(): string {
+        return this.id;
     }
 }

@@ -1,4 +1,4 @@
-import Chat from "./Chat";
+import Chat from "./API/Chat";
 import setState from "./state/stateManager";
 
 export default async function loadChat(id: string): Promise<Chat> {

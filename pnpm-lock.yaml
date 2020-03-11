@@ -1,15 +1,25 @@
 dependencies:
-  '@types/ws': 7.2.2
   body-parser: 1.19.0
   cookie-parser: 1.4.4
   ejs: 3.0.1
+  emoji-unicode: 2.0.0
   express: 4.17.1
+  jquery: 3.4.1
+  js-cookie: 2.2.1
   mime: 2.4.4
   morgan: 1.9.1
+  nodemailer: 6.4.4
+  socks: 2.3.3
   source-map-support: 0.5.16
   ws: 7.2.1
 devDependencies:
+  '@types/body-parser': 1.19.0
+  '@types/cookie-parser': 1.4.2
   '@types/express': 4.17.2
+  '@types/jquery': 3.3.33
+  '@types/js-cookie': 2.2.5
+  '@types/nodemailer': 6.4.0
+  '@types/ws': 7.2.2
   browserify: 16.5.0
   grunt: 1.0.4
   grunt-browserify: 5.3.0
@@ -32,6 +42,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-2+FrkXY4zllzTNfJth7jOqEHC+enpLeGslEhpnTAkg21GkRrWV4SsAtqchtT4YS9/nODBU2/ZfsBY2X4J/dX7A==
+  /@types/cookie-parser/1.4.2:
+    dependencies:
+      '@types/express': 4.17.2
+    dev: true
+    resolution:
+      integrity: sha512-uwcY8m6SDQqciHsqcKDGbo10GdasYsPCYkH3hVegj9qAah6pX5HivOnOuI3WYmyQMnOATV39zv/Ybs0bC/6iVg==
   /@types/express-serve-static-core/4.17.2:
     dependencies:
       '@types/node': 13.7.7
@@ -47,13 +63,30 @@ packages:
     dev: true
     resolution:
       integrity: sha512-5mHFNyavtLoJmnusB8OKJ5bshSzw+qkMIBAobLrIM48HJvunFva9mOa6aBwh64lBFyNwBbs0xiEFuj4eU/NjCA==
+  /@types/jquery/3.3.33:
+    dependencies:
+      '@types/sizzle': 2.3.2
+    dev: true
+    resolution:
+      integrity: sha512-U6IdXYGkfUI42SR79vB2Spj+h1Ly3J3UZjpd8mi943lh126TK7CB+HZOxGh2nM3IySor7wqVQdemD/xtydsBKA==
+  /@types/js-cookie/2.2.5:
+    dev: true
+    resolution:
+      integrity: sha512-cpmwBRcHJmmZx0OGU7aPVwGWGbs4iKwVYchk9iuMtxNCA2zorwdaTz4GkLgs2WGxiRZRFKnV1k6tRUHX7tBMxg==
   /@types/mime/2.0.1:
     dev: true
     resolution:
       integrity: sha512-FwI9gX75FgVBJ7ywgnq/P7tw+/o1GUbtP0KzbtusLigAOgIgNISRK0ZPl4qertvXSIE8YbsVJueQ90cDt9YYyw==
   /@types/node/13.7.7:
+    dev: true
     resolution:
       integrity: sha512-Uo4chgKbnPNlxQwoFmYIwctkQVkMMmsAoGGU4JKwLuvBefF0pCq4FybNSnfkfRCpC7ZW7kttcC/TrRtAJsvGtg==
+  /@types/nodemailer/6.4.0:
+    dependencies:
+      '@types/node': 13.7.7
+    dev: true
+    resolution:
+      integrity: sha512-KY7bFWB0MahRZvVW4CuW83qcCDny59pJJ0MQ5ifvfcjNwPlIT0vW4uARO4u1gtkYnWdhSvURegecY/tzcukJcA==
   /@types/range-parser/1.2.3:
     dev: true
     resolution:
@@ -65,10 +98,14 @@ packages:
     dev: true
     resolution:
       integrity: sha512-oprSwp094zOglVrXdlo/4bAHtKTAxX6VT8FOZlBKrmyLbNvE1zxZyJ6yikMVtHIvwP45+ZQGJn+FdXGKTozq0g==
+  /@types/sizzle/2.3.2:
+    dev: true
+    resolution:
+      integrity: sha512-7EJYyKTL7tFR8+gDbB6Wwz/arpGa0Mywk1TJbNzKzHtzbwVmY4HR9WqS5VV7dsBUKQmPNr192jHr/VpBluj/hg==
   /@types/ws/7.2.2:
     dependencies:
       '@types/node': 13.7.7
-    dev: false
+    dev: true
     resolution:
       integrity: sha512-oqnI3DbGCVI9zJ/WHdFo3CUE8jQ8CVQDUIKaDtlTcNeT4zs6UCg9Gvk5QrFx2QPkRszpM6yc8o0p4aGjCsTi+w==
   /JSONStream/0.10.0:
@@ -935,6 +972,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-f4x70okzZbIQl/NSRLkI/+tteV/9WqL98zx+SQ69KbXxmVrmjwsNUPn/gYJJ0sHvEak24cZgHIPegRePAtA/xw==
+  /emoji-unicode/2.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-7I+MD9WDwRlG7qRTCEiG32Bkw59OnJRcCLPDkBpokXGYTBG8wTE8nrcmwRX0B4IF+ihBGBk9/LVCQsord52JkA==
   /encodeurl/1.0.2:
     dev: false
     engines:
@@ -1588,6 +1629,10 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-VE6NlW+WGn2/AeOMd496AHFYmE7eLKkUY6Ty31k4og5vmA3Fjuwe9v6ifH6Xx/Hz27QvdoMoviw1/pqWRB09Sw==
+  /ip/1.1.5:
+    dev: false
+    resolution:
+      integrity: sha1-vd7XARQpCCjAoDnnLvJfWq7ENUo=
   /ipaddr.js/1.9.1:
     dev: false
     engines:
@@ -1752,6 +1797,14 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
+  /jquery/3.4.1:
+    dev: false
+    resolution:
+      integrity: sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
+  /js-cookie/2.2.1:
+    dev: false
+    resolution:
+      integrity: sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==
   /js-yaml/3.13.1:
     dependencies:
       argparse: 1.0.10
@@ -2091,6 +2144,12 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha512-hZXc7K2e+PgeI1eDBe/10Ard4ekbfrrqG8Ep+8Jmf4JID2bNg7NvCPOZN+kfF574pFQI7mum2AUqDidoKqcTOw==
+  /nodemailer/6.4.4:
+    dev: false
+    engines:
+      node: '>=6.0.0'
+    resolution:
+      integrity: sha512-2GqGu5o3FBmDibczU3+LZh9lCEiKmNx7LvHl512p8Kj+Kn5FQVOICZv85MDFz/erK0BDd5EJp3nqQLpWCZD1Gg==
   /nopt/3.0.6:
     dependencies:
       abbrev: 1.1.1
@@ -2660,6 +2719,13 @@ packages:
     dev: true
     resolution:
       integrity: sha1-c0TLuLbib7J9ZrL8hvn21Zl1IcY=
+  /smart-buffer/4.1.0:
+    dev: false
+    engines:
+      node: '>= 6.0.0'
+      npm: '>= 3.0.0'
+    resolution:
+      integrity: sha512-iVICrxOzCynf/SNaBQCw34eM9jROU/s5rzIhpOvzhzuYHfJR/DhZfDkXiZSgKXfgv26HT3Yni3AV/DGw0cGnnw==
   /snapdragon-node/2.1.1:
     dependencies:
       define-property: 1.0.0
@@ -2693,6 +2759,16 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-FtyOnWN/wCHTVXOMwvSv26d+ko5vWlIDD6zoUJ7LW8vh+ZBC8QdljveRP+crNrtBwioEUWy/4dMtbBjA4ioNlg==
+  /socks/2.3.3:
+    dependencies:
+      ip: 1.1.5
+      smart-buffer: 4.1.0
+    dev: false
+    engines:
+      node: '>= 6.0.0'
+      npm: '>= 3.0.0'
+    resolution:
+      integrity: sha512-o5t52PCNtVdiOvzMry7wU4aOqYWL0PeCXRWBEiJow4/i/wr+wpsJQ9awEu1EonLIqsfGd5qSgDdxEOvCdmBEpA==
   /source-map-resolve/0.5.3:
     dependencies:
       atob: 2.1.2
@@ -3171,19 +3247,29 @@ packages:
     resolution:
       integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==
 specifiers:
+  '@types/body-parser': ^1.19.0
+  '@types/cookie-parser': ^1.4.2
   '@types/express': ^4.17.2
+  '@types/jquery': ^3.3.33
+  '@types/js-cookie': ^2.2.5
+  '@types/nodemailer': ^6.4.0
   '@types/ws': ^7.2.2
   body-parser: ^1.19.0
   browserify: ^16.5.0
   cookie-parser: ^1.4.4
   ejs: ^3.0.1
+  emoji-unicode: ^2.0.0
   express: ^4.17.1
   grunt: latest
   grunt-browserify: latest
   grunt-contrib-uglify: latest
   grunt-contrib-watch: latest
+  jquery: latest
+  js-cookie: ^2.2.1
   mime: ^2.4.4
   morgan: ^1.9.1
+  nodemailer: latest
+  socks: ^2.3.3
   source-map-support: ^0.5.16
   typescript: latest
   uglify-es: ^3.3.9

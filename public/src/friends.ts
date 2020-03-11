@@ -1,6 +1,9 @@
+import * as $ from "jquery";
+
 import http, {Result} from "./http";
 import {Friend} from "./index";
-import {ChatJSONLayout} from "../../server/chat";
+import ChatLayout from "./API/ChatLayout";
+import {openChat} from "./chats";
 
 export async function reloadFriends() {
     const friends: Friend[] = await http<Friend[]>('/api/friend', Result.json) as Friend[];
@@ -9,7 +12,18 @@ export async function reloadFriends() {
 }
 
 export async function initChat(userId: string) {
-    const chatLog: ChatJSONLayout = await http<ChatJSONLayout>(`/api/findChat?${userId}`, Result.json) as ChatJSONLayout;
+    const chatLog: ChatLayout = (await http<{ code: number, message: ChatLayout }>(`/api/chats/findChat?user=${userId}`, Result.json) as { code: number, message: ChatLayout }).message;
 
-    console.log(chatLog);
+    openChat(chatLog.id);
+}
+
+export function attachListeners(friends: JQuery<HTMLElement>) {
+    friends.click(async function () {
+        const id: string | null = $(this).data('id') || null;
+
+        if (id)
+            await initChat(id);
+        else
+            this.remove();
+    });
 }

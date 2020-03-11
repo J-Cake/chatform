@@ -2,6 +2,9 @@ import UserToken from "./userToken";
 import db from './db';
 import Chat from "./chat";
 import hash from "./hash";
+import ChatToken from "./chatToken";
+import chatToken from "./chatToken";
+import Key from "./key";
 
 export enum ChatFilter {
     alphabetical,
@@ -15,7 +18,7 @@ export enum ChatFilter {
 type Filter<T> = (i: T, j: T) => number;
 type FilterFunction<T> = Record<ChatFilter, Filter<T>>;
 
-export const ChatFilters: FilterFunction<Chat> = {
+export const ChatFilters: FilterFunction<Chat> = { // currently all are listed alphabetically
     [ChatFilter.alphabetical]: (i: Chat, j: Chat) => i.name < j.name ? 1 : -1,
     [ChatFilter.counterAlphabetical]: (i: Chat, j: Chat) => i.name < j.name ? 1 : -1,
     [ChatFilter.mostRecentActivity]: (i: Chat, j: Chat) => i.name < j.name ? 1 : -1,
@@ -34,11 +37,12 @@ export interface UserSchemaBase {
     displayName: string
     email: string,
     userToken: UserToken | string,
-    ownedChats: string[],
-    memberChats: string[],
+    ownedChats: chatToken[],
+    memberChats: ChatToken[],
     following: UserToken[] | string[],
     clientSecret: string,
-    publicToken: string
+    publicToken: string,
+    pictureId?: string
 }
 
 export interface UserSchema extends UserSchemaBase {
@@ -53,14 +57,20 @@ export default class User {
     userToken: UserToken;
     cipherPassword: string;
 
-    ownedChats: Chat[];
-    memberChats: Chat[];
+    ownedChats: ChatToken[];
+    memberChats: ChatToken[];
+
+    passwordResetId?: {
+        date: Date,
+        key: Key
+    };
 
     public details: { // this information is publicly available
         email: string,
         displayName: string,
         following: UserToken[],
-        id: string
+        id: string,
+        picture: string
     };
 
     constructor(token: UserToken) {
@@ -70,30 +80,29 @@ export default class User {
             email: '',
             displayName: '',
             following: [],
-            id: ''
+            id: '',
+            picture: null
         };
 
         this.ownedChats = [];
         this.memberChats = [];
     }
 
-    static loadUsers() {
+    static loadUsers(): User[] {
         const userStore: UserSchema[] = db.loadUsers();
 
-        const users: User[] = [];
-        try {
-            for (const pseudoUser of userStore)
-                users.push(User.construct(pseudoUser));
-
-        } catch (err) {
-            return;
-        } finally {
-            User.users = users;
-        }
+        return User.users = userStore.map(i => {
+            try {
+                return User.construct(i);
+            } catch (err) {
+                console.error(err);
+                return null;
+            }
+        }).filter(i => !!i);
     }
 
     static resolveFromCredentials(email: string, clientSecret?: string): User {
-        this.loadUsers();
+        User.loadUsers();
 
         for (const user of User.users)
             if (user.details.email === email)
@@ -110,19 +119,19 @@ export default class User {
 
         const user: User = new User(userToken instanceof UserToken ? userToken : new UserToken(userToken));
 
+        // console.log(pseudoUser);
+
         for (const chat of memberChats)
-            user.joinChat(chat);
+            user.memberChats.push(chat instanceof ChatToken ? chat : new ChatToken(chat));
 
         for (const chat of ownedChats)
-            user.createChat(chat);
+            user.ownedChats.push(chat instanceof ChatToken ? chat : new ChatToken(chat));
 
         user.details.email = email;
         user.details.displayName = displayName;
-        user.details.following = following.map(i => i instanceof UserToken ? i : new UserToken(i, true)).filter(function (i) {
-            console.log(i);
-            return !!i.resolve();
-            // return UserToken.isValidUser(i);
-        });
+
+        user.details.following = following.map(i => i instanceof UserToken ? i : new UserToken(i, true)).filter(i => !!i.resolve());
+
         user.details.id = publicToken;
         user.cipherPassword = clientSecret;
 
@@ -130,14 +139,21 @@ export default class User {
     }
 
     listChats(filter: ChatFilter, list: ChatOwner = ChatOwner.both): Chat[] {
-        if (list === ChatOwner.mine)
-            return this.ownedChats.sort(ChatFilters[ChatFilter.alphabetical] as Filter<Chat>);
-        else if (list === ChatOwner.notMine)
-            return this.memberChats.sort(ChatFilters[filter]);
-        else if (list === ChatOwner.both)
-            return [...this.ownedChats, ...this.memberChats].sort(ChatFilters[filter]);
-        else
-            return [];
+        const sortChats = (): Chat[] => {
+            const chats: ChatToken[] = (function (chats: { owned: ChatToken[], member: ChatToken[] }): ChatToken[] {
+                if (list === ChatOwner.both)
+                    return [...chats.owned, ...chats.member];
+                else if (list === ChatOwner.mine)
+                    return chats.owned;
+                else if (list === ChatOwner.notMine)
+                    return chats.member;
+                else return [];
+            })({owned: this.ownedChats, member: this.memberChats});
+
+            return chats.map(i => i.resolve()).filter(i => !!i).sort(ChatFilters[filter]);
+        };
+
+        return sortChats();
     }
 
     matchPassword(rawPassword: string): boolean {
