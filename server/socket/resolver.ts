@@ -16,7 +16,7 @@ const resolvers: Resolver = {
                 // 1) Get Public key from initiator
                 const publicKey: UserToken = new UserToken(clientRequest.initiator.resolve().details.id, true);
                 // 2) Log The Message.
-                chat.sendMessage(new Message({
+                const message: Message = chat.sendMessage(new Message({
                     chatId: chat.chatToken,
                     readStatus: [],
                     sender: publicKey,
@@ -24,7 +24,12 @@ const resolvers: Resolver = {
                     content: clientRequest.data
                 }));
                 // 3) Distribute The Message
-                this.manager.broadcastToMembers(chat.chatToken, clientRequest);
+                this.manager.broadcastToMembers(chat.chatToken, {
+                    initiator: publicKey,
+                    request: "receive",
+                    target: clientRequest.target,
+                    data: message
+                });
                 // 4) Return Success Message
                 return {
                     actionUser: clientRequest.initiator,
@@ -44,9 +49,6 @@ const resolvers: Resolver = {
                 target: null,
                 data: "Invalid target"
             };
-    },
-    receive(clientRequest: SocketMessage): SocketResponse {
-        return;
     },
     register(clientRequest: SocketMessage): SocketResponse {
         if (clientRequest.initiator.resolve())

@@ -20,6 +20,15 @@ export default class UserToken { // the class used to represent a user rather th
         return Key.fromKey(this.id);
     }
 
+    static parse(id: UserToken | { id: string, isPublicKey?: boolean } | string, isPublic?: boolean): UserToken {
+        if (id instanceof UserToken)
+            return id;
+        else if (typeof id === "string")
+            return new UserToken(id, isPublic);
+        else
+            return new UserToken(id.id, isPublic || id.isPublicKey);
+    }
+
     static isValidUser(id: UserToken | string, searchPublicKey: boolean = false): boolean {
         for (const user of userStore)
             if (id instanceof UserToken) {

@@ -41,7 +41,7 @@ router.get('/findChat', function (req: express.Request, res: express.Response) {
             }
 
             if (!friendUser.memberChats.find(i => chat.matches(i))) {
-                friendUser.memberChats.push(chat instanceof ChatToken ? chat : new ChatToken(typeof chat === 'string' ? chat : (chat as { id: string })?.id));
+                friendUser.memberChats.push(ChatToken.parse(chat));
                 friendUser.export();
             }
 
@@ -78,8 +78,6 @@ router.get('/:id', function (req: express.Request, res: express.Response) {
     const isAllowed: boolean = !chat?.members.find(i => userToken.matches(i.id)) || new UserToken(userToken.resolve()?.details.id, true).matches(chat.owner.id);
 
     if (chat) {
-        console.log(isAllowed);
-
         if (isAllowed) {
             res.json({
                 code: 10,

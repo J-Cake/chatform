@@ -67,10 +67,14 @@ router.get('/image/:publicId', function (req: express.Request, res: express.Resp
 
             if (img)
                 res.end(db.getImage(user.details.picture));
-            else
-                res.end("null");
-        } else
-            res.end("null");
+            else {
+                res.status(404);
+                res.end();
+            }
+        } else {
+            res.status(404);
+            res.end();
+        }
     } else {
         res.status(404);
         res.end({

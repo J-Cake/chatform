@@ -9,7 +9,6 @@ import * as Friends from './friends';
 import State from "./state/globState";
 
 import {connect} from './chats';
-import MessageLayout from "./API/MessageLayout";
 import Chat from "./API/Chat";
 import ws from "./ws";
 
@@ -57,8 +56,10 @@ window.addEventListener("load", async function () {
     });
 
     StateManager.on('messageReceived', function (state: State) {
+        console.log("Message Received", state.currentMessage);
+
         if (state.currentMessage.code === status.newMessage)
-            state.activeChat.handleMessage(state.currentMessage.data as MessageLayout);
+            state.activeChat.handleMessage(state.currentMessage);
     });
 
     StateManager.on('websocketConnected', async function (state: State) { // Initialisation. Connection has successfully been established and chatting can begin
@@ -86,9 +87,17 @@ window.addEventListener("load", async function () {
         form.on('submit', function (e) {
             e.preventDefault();
 
-            state.activeChat.sendMessage(String($("#message-box").val()));
+            const box = $("#message-box");
+            const cont = box.val();
+
+            state.activeChat.sendMessage(String(cont));
+
+            box.val('');
 
             return false;
         })
     });
+
+    const msg = $("#messages");
+    // msg.scrollTop(msg.height());
 });

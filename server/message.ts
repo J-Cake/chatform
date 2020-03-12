@@ -44,12 +44,13 @@ export default class Message {
     }) {
         this.sender = messageStructure.sender;
         this.message = messageStructure.content;
-        this.timeStamp = messageStructure.timestamp;
+        this.timeStamp = new Date(messageStructure.timestamp);
         this.chat = messageStructure.chatId;
         this.readStatus = messageStructure.readStatus;
     }
 
     static construct(source: MessageJSONStructure): Message {
+
         return new Message({
             content: source.content,
             sender: new UserToken(source.sender),
@@ -76,7 +77,7 @@ export default class Message {
             content: this.message,
             readStatus: read,
             sender: this.sender.toString(),
-            timestamp: 0
+            timestamp: this.timeStamp.getTime()
         }
     }
 }

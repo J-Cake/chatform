@@ -131,7 +131,7 @@ router.get('/signup', function (req: express.Request, res: express.Response) {
 router.post("/signup", function (req: express.Request, res: express.Response) {
     const {email, username, password, 'password-confirm': passwordConfirm} = req.body;
 
-    if (username.includes(/[@\s$\\]/)) {
+    if (username.indexOf(/[@\s$\\]/) > -1) {
         res.status(400);
         res.cookie('authentication_error', 4);
         res.redirect('/signup');

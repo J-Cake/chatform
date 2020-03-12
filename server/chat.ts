@@ -43,7 +43,10 @@ export default class Chat {
     }
 
     static construct(chat: ChatJSONLayout): Chat {
-        return new Chat(chat.owner instanceof UserToken ? chat.owner : new UserToken((chat.owner as any).id, true), chat.chatId instanceof ChatToken ? chat.chatId : new ChatToken((chat.chatId as any).id)).load(chat);
+        return new Chat(
+            UserToken.parse(chat.owner, true),
+            ChatToken.parse(chat.chatId)
+        ).load(chat);
     }
 
     static convertToJsonFormat(chatRawObject: {
@@ -55,17 +58,17 @@ export default class Chat {
     }[]): ChatJSONLayout[] {
         return chatRawObject.map(i => ({
             chatName: i.chatName,
-            chatId: i.chatId instanceof ChatToken ? i.chatId : new ChatToken(i.chatId),
-            members: i.members.map(i => i instanceof UserToken ? i : new UserToken(i)),
-            owner: i.owner instanceof UserToken ? i.owner : new UserToken(i.owner, true),
+            chatId: ChatToken.parse(i.chatId),
+            members: i.members.map(i => UserToken.parse(i)),
+            owner: UserToken.parse(i.owner, true),
             messages: i.messages.map(i => Message.construct(i).toJson())
         }));
     }
 
     load(chat: ChatJSONLayout): Chat {
         this.name = chat.chatName;
-        this.members = chat.members.map(i => i instanceof UserToken ? i : new UserToken((i as any).id)) || [];
-        this.owner = chat.owner instanceof UserToken ? chat.owner : new UserToken((chat.owner as any).id, true);
+        this.members = chat.members.map(i => UserToken.parse(i)) || [];
+        this.owner = UserToken.parse(chat.owner, true);
         this.messages = chat.messages.map(i => Message.construct(i)) || [];
 
         return this;
@@ -89,8 +92,9 @@ export default class Chat {
         db.exportChat(this.toJson());
     }
 
-    sendMessage(msg: Message): void {
+    sendMessage(msg: Message): Message {
         this.messages.push(msg);
         this.export();
+        return msg;
     }
 }

@@ -117,20 +117,20 @@ export default class User {
     static construct(pseudoUser: UserSchema): User {
         const {email, displayName, ownedChats, userToken, memberChats, following, clientSecret, publicToken} = pseudoUser;
 
-        const user: User = new User(userToken instanceof UserToken ? userToken : new UserToken(userToken));
+        const user: User = new User(UserToken.parse(userToken));
 
         // console.log(pseudoUser);
 
         for (const chat of memberChats)
-            user.memberChats.push(chat instanceof ChatToken ? chat : new ChatToken(chat));
+            user.memberChats.push(ChatToken.parse(chat));
 
         for (const chat of ownedChats)
-            user.ownedChats.push(chat instanceof ChatToken ? chat : new ChatToken(chat));
+            user.ownedChats.push(ChatToken.parse(chat));
 
         user.details.email = email;
         user.details.displayName = displayName;
 
-        user.details.following = following.map(i => i instanceof UserToken ? i : new UserToken(i, true)).filter(i => !!i.resolve());
+        user.details.following = following.map(i => UserToken.parse(i, true)).filter(i => !!i.resolve());
 
         user.details.id = publicToken;
         user.cipherPassword = clientSecret;

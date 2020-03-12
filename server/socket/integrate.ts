@@ -11,7 +11,7 @@ export interface SocketMessage {
     initiator: UserToken
     target: ChatToken,
     request: string,
-    data?: number[]
+    data?: any
 }
 
 export enum status {

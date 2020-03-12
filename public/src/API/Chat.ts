@@ -1,12 +1,16 @@
 import * as emojiUnicode from 'emoji-unicode';
+import * as $ from 'jquery';
 
 import User from "../User";
 import MessageFetcher from "./MessageFetcher";
 import ChatLayout from "./ChatLayout";
 import http, {Result} from "../http";
-import MessageLayout from "./MessageLayout";
 import escapeBehaviours from '../escapeBehaviour';
 import ws from "../ws";
+import templates from '../templates';
+import {SocketResponse} from "../chats";
+import setState from "../state/stateManager";
+import UserLayout from "./UserLayout";
 
 export default class Chat {
 
@@ -40,8 +44,36 @@ export default class Chat {
         return this;
     }
 
-    handleMessage(message: MessageLayout) {
+    private static async createMessage(message: SocketResponse): Promise<string> {
+        const msg: {
+            sender: { id: string, isPublicKey?: boolean },
+            message: string[],
+            timeStamp: string
+            chat: { id: string }
+            readStatus: []
+        } = message.data;
 
+        const friends: { userName: string, userId: string }[] = setState().friends;
+        const friend: { userName: string, userId: string } = friends.find(i => i.userId === msg.sender.id) || (await http<{ code: number, message: UserLayout }>(`/api/userInfo/${msg.sender.id}`, Result.json) as any).message;
+
+        console.log(friend);
+
+        return templates.message({
+            content: msg.message.map(i => Number(i)),
+            sender: msg.sender.id,
+            time: new Date(Date.parse(msg.timeStamp)),
+            userName: friend.userName
+        });
+    }
+
+    async handleMessage(message: SocketResponse) {
+        const msg = Chat.createMessage(message);
+
+        const container = $("#messages");
+
+        container.append(await msg);
+
+        // container.scrollTop(container.height());
     }
 
     async sendMessage(message: string): Promise<void> {
